@@ -92,7 +92,7 @@ const userSchema = new Schema<IUser>(
       },
       youtube: {
         type: String,
-        maxLength: [100, "Youtube profile url must be less than 20 characters"],
+        maxLength: [100, "Youtube channel url must be less than 20 characters"],
       },
       linkedIn: {
         type: String,
