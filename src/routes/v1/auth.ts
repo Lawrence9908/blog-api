@@ -103,10 +103,10 @@ router.post(
 router.post(
   "/refresh-token",
   cookie("refreshToken")
-  .notEmpty()
-  .withMessage("Refresh token is required")
-  .isJWT()
-  .withMessage("Invalid refresh token"),
+    .notEmpty()
+    .withMessage("Refresh token is required")
+    .isJWT()
+    .withMessage("Invalid refresh token"),
   ValidationError,
   refreshToken,
 );
