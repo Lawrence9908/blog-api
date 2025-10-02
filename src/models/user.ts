@@ -6,8 +6,12 @@
 /**
  * Node modules
  */
-
 import { Schema, model } from "mongoose";
+import bcrypt from "bcryptjs";
+
+/**
+ * Custom modules  
+ */ 
 
 export interface IUser {
   username: string;
@@ -60,12 +64,12 @@ const userSchema = new Schema<IUser>(
     firstName: {
       type: String,
       maxLength: [20, "First name  must be less than 20 characters"],
-      required: [true, "First name is required"],
+    //   required: [true, "First name is required"],
     },
     lastName: {
       type: String,
       maxLength: [20, "Last name  must be less than 20 characters"],
-      required: [true, "Last name is required"],
+    //   required: [true, "Last name is required"],
     },
     sociallinks: {
       website: {
@@ -105,5 +109,16 @@ const userSchema = new Schema<IUser>(
   },
   { timestamps: true },
 );
+
+userSchema.pre("save", async  function (next){
+    if(!this.isModified('password')){
+        next();
+        return;
+    };
+
+    // Hash the password
+    this.password = await  bcrypt.hash(this.password, 10);
+    next();
+});
 
 export default model<IUser>("User", userSchema);
